@@ -5,7 +5,7 @@ from quote import Quote
 
 
 class Broker:
-    def __init__(self, name: str, api_key: str, api_secret:str, api_url: str, paper:bool) -> None:
+    def __init__(self, name: str, api_key: str, api_secret:str, api_url: str, paper:bool, shorting_allowed:bool=True) -> None:
         self.api_key = api_key
         self.api_secret = api_secret
         self.api_url = api_url
@@ -13,6 +13,7 @@ class Broker:
         self.name = name
         self.socket = None
         self.api = None
+        self.shorting_allowed = shorting_allowed
 
 
     def init(self, rest_api:bool=True, socket:bool=True):
@@ -38,27 +39,36 @@ class Broker:
         pass
 
 
-    def cancel_order(id:str):
+    def cancel_order(self, id:str):
         pass
 
 
-    def subscribe(self, channels: List[Channel], topics: List[str] = None):
+    def subscribe(self, channels: List[str], topics:List[str]= None, quotes_cb=None, bars_cb=None, trades_cb=None, account_cb=None):
+        for ch in channels:
+            if ch == 'quotes':
+                self.subscribe_quotes(symbols=topics, cb=quotes_cb)
+            elif ch == Channel.Bars:
+                self.subscribe_bars(symbols=topics, cb=bars_cb)
+            elif ch == Channel.Trades:
+                self.subscribe_trades(symbols=topics, cb=trades_cb)
+            elif ch == Channel.Account:
+                self.subscribe_account(cb=account_cb)
+            
+
+
+    def subscribe_quotes(self, cb, symbols):
         pass
 
 
-    def subscribe_quotes(self):
+    def subscribe_trades(self, cb, symbols):
         pass
 
 
-    def subscribe_trades(self):
+    def subscribe_bars(self, cb, symbols):
         pass
 
 
-    def subscribe_bars(self):
-        pass
-
-
-    def subscribe_account(self):
+    def subscribe_account(self, cb):
         pass
 
 
