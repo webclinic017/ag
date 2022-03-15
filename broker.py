@@ -1,4 +1,5 @@
 from typing import List
+from bar import Bar
 from channel import Channel
 from order import Order
 from quote import Quote
@@ -77,4 +78,8 @@ class Broker:
 
 
     def parse_order(self, order) -> Order:
+        pass
+
+
+    def parse_bar(self, bar) -> Bar:
         pass
