@@ -11,6 +11,7 @@ python-currencycom = "*"
 websockets = "*"
 kucoin-python = "*"
 alpaca-trade-api = "*"
+fastapi = "*"
 
 [dev-packages]
 
