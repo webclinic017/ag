@@ -16,9 +16,10 @@ class Agent():
             socket=True
         )
         self.broker.subscribe(
-            channels=['quotes'],
+            channels=['bars'],
             topics=[self.symbol],
-            quotes_cb=self.handle_quotes
+            quotes_cb=self.handle_quotes,
+            bars_cb=self.handle_bars
         )
         self.broker.start()
 
@@ -29,7 +30,8 @@ class Agent():
 
 
     async def handle_bars(self, bar):
-        pass
+        b = self.broker.parse_bar(bar)
+        self.log('BAR', f'close: {b.close}, ts: {b.timestamp}')
     
 
     async def handle_trades(self, trade):

@@ -1,3 +1,5 @@
+from datetime import datetime
+from bar import Bar
 from broker import Broker
 from alpaca_trade_api.rest import REST
 from alpaca_trade_api.stream import Stream
@@ -45,7 +47,7 @@ class Alpaca(Broker):
 
 
     def subscribe_bars(self, cb, symbols):
-        self.socket.subscribe_crypto_bars(cb, symbols=symbols)
+        self.socket.subscribe_crypto_bars(cb, ','.join(symbols))
 
 
     def subscribe_account(self, cb):
@@ -85,4 +87,14 @@ class Alpaca(Broker):
             symbol=order.symbol,
             side=Side.BUY if order.side == 'buy' else Side.SELL,
             status=OrderStatus.Filled if order.status == 'filled' else OrderStatus.Canceled if order.status == 'canceled' else OrderStatus.Pending 
+        )
+
+
+    def parse_bar(self, bar) -> Bar:
+        return Bar(
+            open=float(bar.open),
+            high=float(bar.high),
+            low=float(bar.low),
+            close=float(bar.close),
+            timestamp=bar.timestamp
         )

@@ -48,11 +48,11 @@ class Broker:
         for ch in channels:
             if ch == 'quotes':
                 self.subscribe_quotes(symbols=topics, cb=quotes_cb)
-            elif ch == Channel.Bars:
+            elif ch == 'bars':
                 self.subscribe_bars(symbols=topics, cb=bars_cb)
-            elif ch == Channel.Trades:
+            elif ch == 'trades':
                 self.subscribe_trades(symbols=topics, cb=trades_cb)
-            elif ch == Channel.Account:
+            elif ch == 'account':
                 self.subscribe_account(cb=account_cb)
             
 
