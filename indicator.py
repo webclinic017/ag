@@ -7,11 +7,12 @@ from bar import Bar
 
 class Indicator:
     def __init__(self) -> None:
-        self.df:DataFrame = None
+        self.df:DataFrame = pd.DataFrame(columns=['open', 'high', 'low', 'close', 'timestamp'], index=None)
 
 
     def append(self, bar:Bar):
-        self.df.append([bar.open, bar.low, bar.high, bar.close, bar.timestamp])
+        self.df.loc[len(self.df)] = [bar.open, bar.low, bar.high, bar.close, bar.timestamp]
+        print(self.df.head())
 
 
     def ema(self, source:Series, length:int) -> Series:

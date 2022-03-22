@@ -12,6 +12,8 @@ websockets = "*"
 kucoin-python = "*"
 alpaca-trade-api = "*"
 fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+firebase-admin = "*"
 
 [dev-packages]
 

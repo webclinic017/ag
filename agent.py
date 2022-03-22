@@ -1,6 +1,7 @@
 from datetime import datetime
 from broker import Broker
 from channel import Channel
+from indicator import Indicator
 
 
 class Agent():
@@ -8,6 +9,7 @@ class Agent():
         self.symbol = symbol
         self.broker = broker
         self.debug = debug
+        self._indicator = Indicator()
 
 
     def start(self):
@@ -31,6 +33,7 @@ class Agent():
 
     async def handle_bars(self, bar):
         b = self.broker.parse_bar(bar)
+        self._indicator.append(b)
         self.log('BAR', f'close: {b.close}, ts: {b.timestamp}')
     
 
@@ -40,6 +43,7 @@ class Agent():
 
     async def handle_updates(self, event):
         pass
+
 
     def log(self, tag:str, message:str):
         if not self.debug:
