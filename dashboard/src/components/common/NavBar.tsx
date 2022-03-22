@@ -14,11 +14,42 @@ import {
 	Toolbar,
 	Typography,
 } from "@mui/material";
-import React, { FC, useContext } from "react";
-import { AppContext, Bot_Status } from "../../AppContext";
+import React, { FC, useCallback, useContext, useEffect } from "react";
+import { Actions_Types, AppContext, Bot_Status } from "../../AppContext";
+import API from "../../lib/api";
 
 const NavBar: FC = ({}) => {
 	const { state, dispatch } = useContext(AppContext);
+
+	const onStartClick = useCallback(async () => {
+		if (state.status == Bot_Status.ON) {
+			return
+		}
+		try {
+			await API.start()
+			dispatch({
+				type: Actions_Types.STATUS_CHANGED,
+				payload: Bot_Status.ON
+			})
+		} catch (error) {
+			console.error(error)
+		}
+	}, [state, dispatch])
+
+	const onStopClick = useCallback(async () => {
+		if (state.status == Bot_Status.OFF) {
+			return
+		}
+		try {
+			await API.stop()
+			dispatch({
+				type: Actions_Types.STATUS_CHANGED,
+				payload: Bot_Status.OFF
+			})
+		} catch (error) {
+			console.error(error)
+		}
+	}, [state, dispatch])
 
 	return (
 		<AppBar
@@ -48,6 +79,7 @@ const NavBar: FC = ({}) => {
 						<Button
 							variant="contained"
 							color="success"
+							onClick={onStartClick}
 							startIcon={<PlayCircle color="inherit" />}>
 							Start
 						</Button>
@@ -63,6 +95,7 @@ const NavBar: FC = ({}) => {
 							<Button
 								variant="contained"
 								color="error"
+								onClick={onStopClick}
 								startIcon={<StopCircle color="inherit" />}>
 								Stop
 							</Button>

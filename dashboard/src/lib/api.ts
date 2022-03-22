@@ -28,13 +28,13 @@ class API {
         })
     }
 
-    start() {
+    static async start() {
     }
 
-    stop() {
+    static async stop() {
     }
 
-    pause() {
+    static async pause() {
     }
 }
 
